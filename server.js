@@ -68,7 +68,7 @@ window.onload = function () {
                 guess.innerHTML = "_";
             }
 
-            geusses.push(guess);
+            guesses.push(guess);
             wordHolder.appendChild(correct);
             correct.appendChild(guess);
         }
@@ -81,8 +81,8 @@ window.onload = function () {
         if (lives < 1) {
             showLives.innerHTML = "Game Over";
         }
-        for (var i = 0; i < geusses.length; i++) {
-            if (counter + space === geusses.length) {
+        for (var i = 0; i < guesses.length; i++) {
+            if (counter + space === guesses.length) {
                 showLives.innerHTML = "You Win!";
             }
         }
