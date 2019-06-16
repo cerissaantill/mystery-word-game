@@ -8,22 +8,23 @@ window.onload = function () {
 
     var categories;         // Array of topics
     var chosenCategory;     // Selected category
-    var getHint ;           // Word getHint
+    // var getHint ;           // Word getHint
     var word ;              // Selected word
     var guess ;             // Guess
-    var geusses = [ ];      // Stored guesses
+    var guesses = [ ];      // Stored guesses array
     var lives ;             // Lives
-    var counter ;           // Count correct guesses
+    var counter ;           // Correct guess counter
     var space;              // Number of spaces in word '-'
 
+
     // Get elements
-    var showLives = document.getElementById("mylives");
-    var showCatagory = document.getElementById("scategory");
+    var showLives = document.getElementById("myLives");
+    var showCatagory = document.getElementById("showCategory");
     var getHint = document.getElementById("hint");
     var showClue = document.getElementById("clue");
 
 
-// Creating alphabet ul
+    // Creating alphabet ul
     var buttons = function () {
         myButtons = document.getElementById('buttons');
         letters = document.createElement('ul');
@@ -37,19 +38,19 @@ window.onload = function () {
             myButtons.appendChild(letters);
             letters.appendChild(list);
         }
-    };
+    }
 
 
     // Select Category
     var selectCat = function () {
         if (chosenCategory === categories[0]) {
-            catagoryName.innerHTML = "Your chosen category is NBA Teams";
+            categoryName.innerHTML = "Your chosen category is NBA Teams";
         } else if (chosenCategory === categories[1]) {
-            catagoryName.innerHTML = "Your chosen category is Music";
+            categoryName.innerHTML = "Your chosen category is Movies";
         } else if (chosenCategory === categories[2]) {
-            catagoryName.innerHTML = "Your chosen category is Cities";
+            categoryName.innerHTML = "Your chosen category is Cities";
         }
-    };
+    }
 
 
     // Create guesses ul
@@ -88,10 +89,155 @@ window.onload = function () {
         }
     }
 
+
     // Animate man
     var animate = function () {
         var drawMe = lives ;
         drawArray[drawMe]();
     }
+
+
+    // Hangman
+    canvas =  function(){
+        myStickman = document.getElementById("stickman");
+        context = myStickman.getContext('2d');
+        context.beginPath();
+        context.strokeStyle = "#fff";
+        context.lineWidth = 2;
+    }
+
+    head = function(){
+        myStickman = document.getElementById("stickman");
+        context = myStickman.getContext('2d');
+        context.beginPath();
+        context.arc(60, 25, 10, 0, Math.PI*2, true);
+        context.stroke();
+    }
+
+    draw = function($pathFromx, $pathFromy, $pathTox, $pathToy) {
+
+        context.moveTo($pathFromx, $pathFromy);
+        context.lineTo($pathTox, $pathToy);
+        context.stroke();
+    }
+
+
+    frame1 = function() {
+        draw (0, 150, 150, 150);
+    };
+
+    frame2 = function() {
+        draw (10, 0, 10, 600);
+    };
+
+    frame3 = function() {
+        draw (0, 5, 70, 5);
+    };
+
+    frame4 = function() {
+        draw (60, 5, 60, 15);
+    };
+
+    torso = function() {
+        draw (60, 36, 60, 70);
+    };
+
+    rightArm = function() {
+        draw (60, 46, 100, 50);
+    };
+
+    leftArm = function() {
+        draw (60, 46, 20, 50);
+    };
+
+    rightLeg = function() {
+        draw (60, 70, 100, 100);
+    };
+
+    leftLeg = function() {
+        draw (60, 70, 20, 100);
+    };
+
+    drawArray = [rightLeg, leftLeg, rightArm, leftArm,  torso,  head, frame4, frame3, frame2, frame1];
+
+
+
+    // OnClick Function
+    check = function () {
+        list.onclick = function () {
+            var guess = (this.innerHTML);
+            this.setAttribute("class", "active");
+            this.onclick = null;
+            for (var i = 0; i < word.length; i++) {
+                if (word[i] === guess) {
+                    guesses[i].innerHTML = guess;
+                    counter += 1;
+                }
+            }
+            var j = (word.indexOf(guess));
+            if (j === -1) {
+                lives -= 1;
+                comments();
+                animate();
+            } else {
+                comments();
+            }
+        }
+    };
+
+
+    // Play
+    play = function () {
+        categories = [
+            ["spurs", "lakers", "knickerbockers", "pelicans", "jazz", "trailblazers", "nuggets"],
+            ["bridesmaids", "the godfather", "titanic", "caddy shack", "jaws"],
+            ["san antonio", "new orleans", "hanalei", "edinburgh", "santa barbara"]
+        ];
+
+        chosenCategory = categories[Math.floor(Math.random() * categories.length)];
+        word = chosenCategory[Math.floor(Math.random() * chosenCategory.length)];
+        word = word.replace(/\s/g, "-");
+        console.log(word);
+        buttons();
+
+        guesses = [ ];
+        lives = 10;
+        counter = 0;
+        space = 0;
+        result();
+        comments();
+        selectCat();
+        canvas();
+    };
+
+    play();
+
+
+    // Hint
+
+    hint.onclick = function() {
+
+        hints = [
+            ["Based in Texas", "Based in California", "Based in NY", "Based in LA", "Based in Utah, but shouldn't be", "Based in Oregon", "Based in Colorado"],
+            ["I'm rrready to parrrtyy", "I'll make him an offer he can't refuse", "Historical drama about an ocean liner", "Golf comedy", "Giant great white shark"],
+            ["The Spurs", "The Big Easy", "Puff the Magic Dragon", "Fringe Fest", "Best airport ever"]
+        ];
+
+        var categoryIndex = categories.indexOf(chosenCategory);
+        var hintIndex = chosenCategory.indexOf(word);
+        showClue.innerHTML = "Clue: - " +  hints [categoryIndex][hintIndex];
+    };
+
+
+    // Reset
+
+    document.getElementById('reset').onclick = function() {
+        correct.parentNode.removeChild(correct);
+        letters.parentNode.removeChild(letters);
+        showClue.innerHTML = "";
+        context.clearRect(0, 0, 400, 400);
+        play();
+    }
+};
 
 
