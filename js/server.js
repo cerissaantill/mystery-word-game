@@ -26,12 +26,12 @@ window.onload = function () {
 
     // Creating alphabet ul
     var buttons = function () {
-        myButtons = document.getElementById('buttons');
-        letters = document.createElement('ul');
+        var myButtons = document.getElementById('buttons');
+        var letters = document.createElement('ul');
 
         for (var i = 0; i < alphabet.length; i++) {
             letters.id = 'alphabet';
-            list = document.createElement('li');
+            var list = document.createElement('li')
             list.id = 'letter';
             list.innerHTML = alphabet[i];
             check();
@@ -54,9 +54,9 @@ window.onload = function () {
 
 
     // Create guesses ul
-    result = function () {
-        wordHolder = document.getElementById('hold');
-        correct = document.createElement('ul');
+    var result = function () {
+       var wordHolder = document.getElementById('hold');
+        var correct = document.createElement('ul');
 
         for (var i = 0; i < word.length; i++) {
             correct.setAttribute('id', 'my-word');
@@ -77,7 +77,7 @@ window.onload = function () {
 
 
     // Show lives
-    comments = function () {
+    var comments = function () {
         showLives.innerHTML = "You have " + lives + " lives";
         if (lives < 1) {
             showLives.innerHTML = "Game Over";
@@ -87,7 +87,7 @@ window.onload = function () {
                 showLives.innerHTML = "You Win!";
             }
         }
-    }
+    };
 
 
     // Animate man
@@ -98,72 +98,72 @@ window.onload = function () {
 
 
     // Hangman
-    canvas =  function(){
-        myStickman = document.getElementById("stickman");
-        context = myStickman.getContext('2d');
+    var canvas =  function(){
+        var myStickman = document.getElementById("stickman");
+        var context = myStickman.getContext('2d');
         context.beginPath();
         context.strokeStyle = "#fff";
         context.lineWidth = 2;
-    }
+    };
 
-    head = function(){
-        myStickman = document.getElementById("stickman");
-        context = myStickman.getContext('2d');
+   var head = function(){
+        var myStickman = document.getElementById("stickman");
+        var context = myStickman.getContext('2d');
         context.beginPath();
         context.arc(60, 25, 10, 0, Math.PI*2, true);
         context.stroke();
-    }
+    };
 
-    draw = function($pathFromx, $pathFromy, $pathTox, $pathToy) {
+    var draw = function($pathFromx, $pathFromy, $pathTox, $pathToy) {
 
         context.moveTo($pathFromx, $pathFromy);
         context.lineTo($pathTox, $pathToy);
         context.stroke();
-    }
+    };
 
 
-    frame1 = function() {
+    var frame1 = function() {
         draw (0, 150, 150, 150);
     };
 
-    frame2 = function() {
+    var frame2 = function() {
         draw (10, 0, 10, 600);
     };
 
-    frame3 = function() {
+    var frame3 = function() {
         draw (0, 5, 70, 5);
     };
 
-    frame4 = function() {
+    var frame4 = function() {
         draw (60, 5, 60, 15);
     };
 
-    torso = function() {
+   var torso = function() {
         draw (60, 36, 60, 70);
     };
 
-    rightArm = function() {
+    var rightArm = function() {
         draw (60, 46, 100, 50);
     };
 
-    leftArm = function() {
+    var leftArm = function() {
         draw (60, 46, 20, 50);
     };
 
-    rightLeg = function() {
+    var rightLeg = function() {
         draw (60, 70, 100, 100);
     };
 
-    leftLeg = function() {
+    var leftLeg = function() {
         draw (60, 70, 20, 100);
     };
 
-    drawArray = [rightLeg, leftLeg, rightArm, leftArm,  torso,  head, frame4, frame3, frame2, frame1];
+    var drawArray = [rightLeg, leftLeg, rightArm, leftArm,  torso,  head, frame4, frame3, frame2, frame1];
 
 
 
     // OnClick Function
-    check = function () {
+    var check = function () {
         list.onclick = function () {
             var guess = (this.innerHTML);
             this.setAttribute("class", "active");
@@ -217,7 +217,7 @@ window.onload = function () {
 
     hint.onclick = function() {
 
-        hints = [
+        var hints = [
             ["Based in Texas", "Based in California", "Based in NY", "Based in LA", "Based in Utah, but shouldn't be", "Based in Oregon", "Based in Colorado"],
             ["I'm rrready to parrrtyy", "I'll make him an offer he can't refuse", "Historical drama about an ocean liner", "Golf comedy", "Giant great white shark"],
             ["The Spurs", "The Big Easy", "Puff the Magic Dragon", "Fringe Fest", "Best airport ever"]
